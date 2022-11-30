@@ -158,4 +158,15 @@ public class PersonDaoImpl implements PersonDao {
         session.beginTransaction().commit();
         return tListPerson;
     }
+
+    public List<Person> finByFieldValue(String field, String value) {
+        List<Person> list = new ArrayList<Person>();
+        sessionFactory = HibernateUtils.getSessionFactory();
+        session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        Query q = session.createQuery("from Person where " + field + " like :value");
+        q.setParameter("value", "%" + value + "%");
+        list = q.list();
+        return list;
+    }
 }
